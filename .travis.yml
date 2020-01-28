@@ -1,0 +1,12 @@
+language: go
+go:
+  - "1.13.x"
+
+script:
+  - go test -v -race $(go list ./...)
+  - go vet $(go list ./...)
+  - (for d in $(go list ./...); do diff <(golint $d) <(printf "") || exit 1;  done)
+
+#TODO add slack hook
+#notifications:
+#  slack: `<account>:<token>#channel`
