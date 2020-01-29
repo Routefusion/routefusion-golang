@@ -11,4 +11,5 @@ type Client interface {
 	ListBeneficiaries() ([]Beneficiary, error)
 	GetBeneficiary(id string) (*BeneficiaryBase, error)
 	CreateBeneficiary(*BeneficiaryInput) (*BeneficiaryBase, error)
+	UpdateBeneficiary(id string, body *UpdateBeneficiaryInput) (*BeneficiaryBase, error)
 }

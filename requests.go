@@ -46,12 +46,38 @@ type BeneficiaryInput struct {
 	// Optional for types that are not business.
 	CompanyName string
 
-	BankCountry   string
-	BankName      string
-	AccountNumber string
-	Currency      string
-	Address1      string
-	Country       string
-	City          string
-	PostalCode    string
+	BankCountry       string
+	BankName          string
+	AccountNumber     string
+	Currency          string
+	Address1          string
+	Country           string
+	City              string
+	PostalCode        string
+	RoutingNumber     string
+	SwiftBic          string
+	BsbNumber         string
+	Cpfcnpj           string
+	StateProvince     string
+	PhoneNumber       string
+	BranchName        string
+	BankCity          string
+	BankStateProvince string
+	Clabe             string
+	BankCode          string
+	TaxNumber         string
+	BranchCode        string
+}
+
+// UpdateBeneficiaryInput represents a set of alterable fields for a benificiary.
+type UpdateBeneficiaryInput struct {
+	BeneficiaryInput
+	Email          string
+	Address2       string
+	AccountType    string
+	BankCity       string
+	BankAddress1   string
+	BankAddress2   string
+	BankCountry    string
+	BankPostalCode string
 }
