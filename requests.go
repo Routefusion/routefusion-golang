@@ -81,3 +81,12 @@ type UpdateBeneficiaryInput struct {
 	BankCountry    string
 	BankPostalCode string
 }
+
+// QuoteInput denotes the input structure to create a quote.
+type QuoteInput struct {
+	SourceAmount        int64
+	SourceCurrency      string
+	DestinationCurrency string
+	// Format "YYYY/MM/DD or MM/DD/YYYY"
+	PaymentDate string
+}

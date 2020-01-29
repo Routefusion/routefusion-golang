@@ -87,3 +87,15 @@ type Beneficiary struct {
 	} `json:"status_history"`
 	Status string `json:"status"`
 }
+
+// QuoteResponse is the standard response for a created quote.
+type QuoteResponse struct {
+	UUID                string    `json:"uuid"`
+	SourceCurrency      string    `json:"source_currency"`
+	DestinationCurrency string    `json:"destination_currency"`
+	Rate                string    `json:"rate"` // why not float?
+	InvertedRate        string    `json:"inverted_rate"`
+	DateOfPayment       time.Time `json:"date_of_payment"`
+	ExpiresAt           time.Time `json:"expires_at"`
+	CreatedAt           time.Time `json:"created_at"`
+}
