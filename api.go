@@ -33,3 +33,14 @@ type Beneficiaries interface {
 type Quotes interface {
 	CreateQuote(*QuoteInput) (*QuoteResponse, error)
 }
+
+// Transfers specifies the operations that can be performed around transfers.
+type Transfers interface {
+	CreateTransfer(*TransferInput) (*TransferResponse, error)
+	GetTransfer(id string) (*TransferResponse, error)
+	CancelTransfer(uuid string) (cancelledID string, err error)
+	CreateTransferMaster(uuid string) (*TransferState, error)
+	GetTransferMaster(subUserID, transferID string) (*TransferResponse, error)
+	GetTransferStatusMaster(subUserID, transferID string) (*TransferState, error)
+	CancelTransferMaster(subUserID, transferID string) (cancelledID string, err error)
+}

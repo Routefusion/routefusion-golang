@@ -99,3 +99,27 @@ type QuoteResponse struct {
 	ExpiresAt           time.Time `json:"expires_at"`
 	CreatedAt           time.Time `json:"created_at"`
 }
+
+type TransferResponse struct {
+	UserID         int         `json:"user_id"`
+	AccountID      interface{} `json:"account_id"`
+	BeneficiaryID  int         `json:"beneficiary_id"`
+	SourceAmount   string      `json:"source_amount"`
+	ExchangeRate   string      `json:"exchange_rate"`
+	Reference      string      `json:"reference"`
+	Fee            string      `json:"fee"`
+	CurrencyPairs  string      `json:"currency_pairs"`
+	CreatedAt      time.Time   `json:"created_at"`
+	UpdatedAt      interface{} `json:"updated_at"`
+	UUID           string      `json:"uuid"`
+	State          string      `json:"state"`
+	AuthorizingIP  string      `json:"authorizing_ip"`
+	TransferStates []struct {
+		State     string    `json:"state"`
+		CreatedAt time.Time `json:"created_at"`
+	} `json:"transfer_states"`
+	SourceCurrency      string `json:"source_currency"`
+	DestinationAmount   string `json:"destination_amount"`
+	DestinationCurrency string `json:"destination_currency"`
+	Deposit             bool   `json:"deposit"`
+}

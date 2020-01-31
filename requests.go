@@ -1,5 +1,7 @@
 package routefusion
 
+import "time"
+
 // User represents the changeable details pertaining to a user.
 // TODO: QUESTION- Is this a multipart or marshalled http body?
 type User struct {
@@ -89,4 +91,20 @@ type QuoteInput struct {
 	DestinationCurrency string
 	// Format "YYYY/MM/DD or MM/DD/YYYY"
 	PaymentDate string
+}
+
+// TransferInput
+type TransferInput struct {
+	BeneficiaryID     int
+	SourceAmount      int64
+	DestinationAmount int64
+	Reference         string
+	QuoteUUID         string
+	AutoComplete      bool
+}
+
+// TransferState represents the current state and date of any transaction.
+type TransferState struct {
+	State     string
+	CreatedAt time.Time
 }
