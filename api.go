@@ -1,5 +1,7 @@
 package routefusion
 
+import "io"
+
 // Client specifies the abstraction for Routefusion APIs.
 type Client interface {
 	Users
@@ -43,4 +45,11 @@ type Transfers interface {
 	GetTransferMaster(subUserID, transferID string) (*TransferResponse, error)
 	GetTransferStatusMaster(subUserID, transferID string) (*TransferState, error)
 	CancelTransferMaster(subUserID, transferID string) (cancelledID string, err error)
+}
+
+// BatchTransfers specifies the operations that can be performed on batch
+// transfers.
+type BatchTransfers interface {
+	CreateBatchPayment(payload io.ReadSeeker) (*BatchTransferStatus, error)
+	GetBatchPayment(batchID string) (*BatchTransferStatus, error)
 }

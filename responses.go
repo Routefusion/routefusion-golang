@@ -100,6 +100,7 @@ type QuoteResponse struct {
 	CreatedAt           time.Time `json:"created_at"`
 }
 
+// TransferResponse is the standard response to transfer operations.
 type TransferResponse struct {
 	UserID         int         `json:"user_id"`
 	AccountID      interface{} `json:"account_id"`
@@ -122,4 +123,11 @@ type TransferResponse struct {
 	DestinationAmount   string `json:"destination_amount"`
 	DestinationCurrency string `json:"destination_currency"`
 	Deposit             bool   `json:"deposit"`
+}
+
+// BatchTransferStatus is the standard batch transfer status response.
+type BatchTransferStatus struct {
+	UUID      string `json:"uuid"`
+	QuoteUUID string `json:"quote_uuid"`
+	Status    string `json:"status"`
 }
