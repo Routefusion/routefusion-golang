@@ -7,6 +7,9 @@ type Client interface {
 	Users
 	Beneficiaries
 	Quotes
+	Transfers
+	BatchTransfers
+	Transactions
 }
 
 // Users specifies the user related tasks that can be performed using the sdk.
@@ -52,4 +55,10 @@ type Transfers interface {
 type BatchTransfers interface {
 	CreateBatchPayment(payload io.ReadSeeker) (*BatchTransferStatus, error)
 	GetBatchPayment(batchID string) (*BatchTransferStatus, error)
+}
+
+// Transactions is an interface that specifies operations concerning reading
+// of transactions.
+type Transactions interface {
+	GetTransactions() ([]TransactionResponse, error)
 }

@@ -131,3 +131,24 @@ type BatchTransferStatus struct {
 	QuoteUUID string `json:"quote_uuid"`
 	Status    string `json:"status"`
 }
+
+// TransactionResponse is a representation of data about transactions.
+type TransactionResponse struct {
+	UUID                string      `json:"uuid"`
+	UserID              int         `json:"user_id"`
+	AccountID           interface{} `json:"account_id"`
+	BeneficiaryID       int         `json:"beneficiary_id"`
+	CurrencyPairs       string      `json:"currency_pairs"`
+	SourceCurrency      string      `json:"source_currency"`
+	SourceAmount        string      `json:"source_amount"`
+	DestinationAmount   string      `json:"destination_amount"`
+	DestinationCurrency string      `json:"destination_currency"`
+	ExchangeRate        string      `json:"exchange_rate"`
+	AuthorizingIP       string      `json:"authorizing_ip"`
+	State               string      `json:"state"`
+	TransferStates      []struct {
+		State     string    `json:"state"`
+		CreatedAt time.Time `json:"created_at"`
+	} `json:"transfer_states"`
+	CreatedAt time.Time `json:"created_at"`
+}
