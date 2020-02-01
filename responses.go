@@ -152,3 +152,85 @@ type TransactionResponse struct {
 	} `json:"transfer_states"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+// WebhookResponse is the representation of response data for webhook based
+// operations.
+type WebhookResponse struct {
+	UUID        string    `json:"uuid"`
+	URL         string    `json:"url"`
+	Type        string    `json:"type"`
+	Rfuuid      string    `json:"rfuuid"`
+	FailedCount int       `json:"failed_count"`
+	RetryCount  int       `json:"retry_count"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	CreatedAt   time.Time `json:"created_at"`
+}
+
+// BalanceResponse is a representation of current balance.
+type BalanceResponse struct {
+	Currency string
+	Balance  float64
+}
+
+// KYCDetails is a representation of details retained by KYC.
+type KYCDetails struct {
+	AgreedToTerms          bool   `json:"agreedToTerms"`
+	AllowAccountManagement bool   `json:"allowAccountManagement"`
+	Address                string `json:"address"`
+	City                   string `json:"city"`
+	CompanyName            string `json:"companyName"`
+	Country                string `json:"country"`
+	DateOfIncorporation    string `json:"dateOfIncorporation"`
+	Dba                    bool   `json:"dba"`
+	DbaName                string `json:"dbaName"`
+	IncorporationNumber    string `json:"incorporationNumber"`
+	Officers               []struct {
+		Address     string `json:"address"`
+		Citizenship string `json:"citizenship"`
+		City        string `json:"city"`
+		Dob         string `json:"dob"`
+		FirstName   string `json:"firstName"`
+		IDNumber    string `json:"idNumber"`
+		IDType      string `json:"idType"`
+		JobTitle    string `json:"jobTitle"`
+		LastName    string `json:"lastName"`
+		Owner       bool   `json:"owner"`
+		Ownership   string `json:"ownership"`
+		PostalCode  string `json:"postalCode"`
+		State       string `json:"state"`
+		Title       string `json:"title"`
+	} `json:"officers"`
+	Owners []struct {
+		Address     string `json:"address"`
+		Citizenship string `json:"citizenship"`
+		City        string `json:"city"`
+		Dob         string `json:"dob"`
+		FirstName   string `json:"firstName"`
+		IDNumber    string `json:"idNumber"`
+		IDType      string `json:"idType"`
+		JobTitle    string `json:"jobTitle"`
+		LastName    string `json:"lastName"`
+		Owner       bool   `json:"owner"`
+		Ownership   string `json:"ownership"`
+		PostalCode  string `json:"postalCode"`
+		State       string `json:"state"`
+		Title       string `json:"title"`
+	} `json:"owners"`
+	Payments struct {
+		Countries []string `json:"countries"`
+		Frequency string   `json:"frequency"`
+		Purpose   string   `json:"purpose"`
+		Volume    string   `json:"volume"`
+	} `json:"payments"`
+	Phone      string `json:"phone"`
+	PostalCode string `json:"postalCode"`
+	State      string `json:"state"`
+	Structure  string `json:"structure"`
+	Website    string `json:"website"`
+}
+
+// PaymentInstructions is a representation of payment instructions.
+type PaymentInstructions struct {
+	Currency            string `json:"Currency"`
+	PaymentInstructions string `json:"PaymentInstructions"`
+}

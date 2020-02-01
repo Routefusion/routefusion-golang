@@ -93,7 +93,7 @@ type QuoteInput struct {
 	PaymentDate string
 }
 
-// TransferInput
+// TransferInput is a representation of possible input to transfers.
 type TransferInput struct {
 	BeneficiaryID     int
 	SourceAmount      int64
@@ -107,4 +107,68 @@ type TransferInput struct {
 type TransferState struct {
 	State     string
 	CreatedAt time.Time
+}
+
+// WebhookUpdateInput represents the required field to update a webhook.
+type WebhookUpdateInput struct {
+	URL    string
+	Type   string
+	rfUUID string
+}
+
+// KYCBody is the definition of the input style and details for KYC data.
+type KYCBody struct {
+	AgreedToTerms          bool   `json:"agreedToTerms"`
+	AllowAccountManagement bool   `json:"allowAccountManagement"`
+	Address                string `json:"address"`
+	City                   string `json:"city"`
+	CompanyName            string `json:"companyName"`
+	Country                string `json:"country"`
+	DateOfIncorporation    string `json:"dateOfIncorporation"`
+	Dba                    bool   `json:"dba"`
+	DbaName                string `json:"dbaName"`
+	IncorporationNumber    string `json:"incorporationNumber"`
+	Officers               []struct {
+		Address     string `json:"address"`
+		Citizenship string `json:"citizenship"`
+		City        string `json:"city"`
+		Dob         string `json:"dob"`
+		FirstName   string `json:"firstName"`
+		IDNumber    string `json:"idNumber"`
+		IDType      string `json:"idType"`
+		JobTitle    string `json:"jobTitle"`
+		LastName    string `json:"lastName"`
+		Owner       bool   `json:"owner"`
+		Ownership   string `json:"ownership"`
+		PostalCode  string `json:"postalCode"`
+		State       string `json:"state"`
+		Title       string `json:"title"`
+	} `json:"officers"`
+	Owners []struct {
+		Address     string `json:"address"`
+		Citizenship string `json:"citizenship"`
+		City        string `json:"city"`
+		Dob         string `json:"dob"`
+		FirstName   string `json:"firstName"`
+		IDNumber    string `json:"idNumber"`
+		IDType      string `json:"idType"`
+		JobTitle    string `json:"jobTitle"`
+		LastName    string `json:"lastName"`
+		Owner       bool   `json:"owner"`
+		Ownership   string `json:"ownership"`
+		PostalCode  string `json:"postalCode"`
+		State       string `json:"state"`
+		Title       string `json:"title"`
+	} `json:"owners"`
+	Payments struct {
+		Countries []string `json:"countries"`
+		Frequency string   `json:"frequency"`
+		Purpose   string   `json:"purpose"`
+		Volume    string   `json:"volume"`
+	} `json:"payments"`
+	Phone      string `json:"phone"`
+	PostalCode string `json:"postalCode"`
+	State      string `json:"state"`
+	Structure  string `json:"structure"`
+	Website    string `json:"website"`
 }

@@ -10,6 +10,11 @@ type Client interface {
 	Transfers
 	BatchTransfers
 	Transactions
+	Account
+	Webhooks
+	KYC
+	CurrencyCoverage
+	WireInstructions
 }
 
 // Users specifies the user related tasks that can be performed using the sdk.
@@ -61,4 +66,39 @@ type BatchTransfers interface {
 // of transactions.
 type Transactions interface {
 	GetTransactions() ([]TransactionResponse, error)
+}
+
+// Account dictates an interface for retrieving account reports.
+type Account interface {
+	GetBalance() (*BalanceResponse, error)
+}
+
+// Webhooks is an interface for webhook based operation.
+type Webhooks interface {
+	GetWebhook(id string) (*WebhookResponse, error)
+	UpdateWebhook(id string, updateInput WebhookUpdateInput) (*WebhookResponse, error)
+	IndexWebhooks()
+	CreateWebhook(createInput WebhookUpdateInput) (*WebhookResponse, error)
+	DeleteWebhook(id string) error
+}
+
+// KYC is an interface for KYC based CRUD operations.
+type KYC interface {
+	// TODO: Solve this problem, struct vs io.ReadSeeker
+	CreateKYC(subUserID string, kycBody KYCBody) error
+	ShowKYC(subUserID string) (*KYCDetails, error)
+	UpdateUserKYC(subUserID string, kycBody KYCBody) error
+	DeleteKYC(subUserID string) error
+}
+
+// CurrencyCoverage is an interface for currency based transactions.
+type CurrencyCoverage interface {
+	// TODO: Interface{} is because I cant make sense of the response to
+	// this endpoint. Need to fix.
+	GetCurrencies() (interface{}, error)
+}
+
+// WireInstructions is an interface for wireinstruction based operations.
+type WireInstructions interface {
+	GetWireInstructions(currencyCode string) ([]PaymentInstructions, error)
 }
