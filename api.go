@@ -77,7 +77,7 @@ type Account interface {
 type Webhooks interface {
 	GetWebhook(id string) (*WebhookResponse, error)
 	UpdateWebhook(id string, updateInput WebhookUpdateInput) (*WebhookResponse, error)
-	IndexWebhooks()
+	IndexWebhooks() ([]WebhookResponse, error)
 	CreateWebhook(createInput WebhookUpdateInput) (*WebhookResponse, error)
 	DeleteWebhook(id string) error
 }
