@@ -1,0 +1,15 @@
+language: go
+go:
+  - "1.13.x"
+
+script:
+  - go test -race -coverprofile=coverage.txt -covermode=atomic
+  - go vet $(go list ./...)
+  - (for d in $(go list ./...); do diff <(golint $d) <(printf "") || exit 1;  done)
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t 5be90ce7-0057-4439-9176-2179d28c0fe7
+
+#TODO add slack hook
+#notifications:
+#  slack: `<account>:<token>#channel`
