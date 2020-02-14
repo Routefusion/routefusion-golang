@@ -30,7 +30,7 @@ type Client struct {
 	baseURL    string
 }
 
-// NewClient returns a new instance of sdk.Client.
+// NewClient returns a new instance of client.Client.
 // The config gets sanitized by returning a copy of the passed configuration
 // with default set if the given values are not set by the caller.
 // The default values are derived from the default values of DefaultTransport
