@@ -17,16 +17,21 @@ func main() {
 	}
 }
 
+// Parameter is a parameter attached to a function.
 type Parameter struct {
 	Name string
 	Type string
 }
 
+// Action is a set of indicatives that we will loop through
+// to generate code.
 type Action struct {
 	interfaceName string
 	methods       []Method
 }
 
+// Method represents a set of metadata levels details that belong
+// to an api method.
 type Method struct {
 	endpoint     string
 	methodName   string
