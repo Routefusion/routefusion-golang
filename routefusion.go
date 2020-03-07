@@ -1,3 +1,6 @@
+//go:generate go run internal/cmd/genmethods/genmethods.go
+
+// Package routefusion implements a go sdk for routefusion services.
 package routefusion
 
 import (
