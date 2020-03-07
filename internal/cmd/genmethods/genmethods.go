@@ -143,7 +143,7 @@ func selectorToString(t *ast.SelectorExpr) string {
 	}
 	param.WriteString(".")
 	param.WriteString(t.Sel.Name)
-	return param.String() // context.Context
+	return param.String()
 }
 
 func starToString(t *ast.StarExpr) string {
@@ -152,5 +152,5 @@ func starToString(t *ast.StarExpr) string {
 	if ident, ok := t.X.(*ast.Ident); ok {
 		param.WriteString(ident.Name)
 	}
-	return param.String() // *Message
+	return param.String()
 }
