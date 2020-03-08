@@ -158,9 +158,6 @@ func getFields(fields []*ast.Field) []Parameter {
 	return params
 }
 
-//func toString(field *ast.Field) string {
-//}
-
 func selectorToString(t *ast.SelectorExpr) string {
 	var param bytes.Buffer
 	if ident, ok := t.X.(*ast.Ident); ok {
