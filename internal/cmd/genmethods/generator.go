@@ -2,10 +2,11 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"go/ast"
+	"go/format"
 	"go/parser"
 	"go/token"
+	"io"
 	"log"
 	"os"
 )
@@ -44,7 +45,16 @@ func _main() error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(actions)
+
+	f, err := os.Create("methods.go")
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	if err := generateAPIMethods(f, actions); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -136,10 +146,20 @@ func getFields(fields []*ast.Field) []Parameter {
 				Type: starToString(t),
 			}
 			params = append(params, p)
+		case *ast.Ident:
+			p := Parameter{
+				Name: name,
+				Type: t.Name,
+			}
+			params = append(params, p)
 		}
+
 	}
 	return params
 }
+
+//func toString(field *ast.Field) string {
+//}
 
 func selectorToString(t *ast.SelectorExpr) string {
 	var param bytes.Buffer
@@ -158,4 +178,57 @@ func starToString(t *ast.StarExpr) string {
 		param.WriteString(ident.Name)
 	}
 	return param.String()
+}
+
+func generateAPIMethods(w io.Writer, actions []Action) error {
+	var buf bytes.Buffer
+	buf.WriteString("package routefusion\n")
+	for _, action := range actions {
+		for _, method := range action.methods {
+			writeFunction(&buf, method)
+		}
+	}
+
+	formatted, err := format.Source(buf.Bytes())
+	if err != nil {
+		return err
+	}
+
+	if _, err := w.Write(formatted); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func writeFunction(buf *bytes.Buffer, method Method) {
+	buf.WriteString("func ")
+	buf.WriteString(method.methodName)
+	buf.WriteString("(")
+	for i, inputParam := range method.inputParams {
+		buf.WriteString(inputParam.Name + " " + inputParam.Type)
+		if i < len(method.inputParams)-1 {
+			buf.WriteString(",")
+		}
+	}
+	buf.WriteString(")")
+
+	if len(method.outputParams) > 1 {
+		buf.WriteString("(")
+	}
+
+	for i, outputParam := range method.outputParams {
+		buf.WriteString(outputParam.Name + " " + outputParam.Type)
+		if i < len(method.outputParams)-1 {
+			buf.WriteString(",")
+		}
+	}
+
+	if len(method.outputParams) > 1 {
+		buf.WriteString(")")
+	}
+
+	buf.WriteString("{\n")
+
+	buf.WriteString("}\n\n")
 }
