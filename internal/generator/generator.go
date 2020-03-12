@@ -37,5 +37,5 @@ type Writer interface {
 
 // Generator is an interface that specifies how a generation would occur.
 type Generator interface {
-	Copy(io.Reader, io.Writer) error
+	Generate(Reader, Writer) error
 }
