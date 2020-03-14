@@ -125,6 +125,12 @@ type TransferResponse struct {
 	Deposit             bool   `json:"deposit"`
 }
 
+// TransferStatus is the status response to get transfer status.
+type TransferStatus struct {
+	State     string `json:"state"`
+	CreatedAt string `json:"created_at"`
+}
+
 // BatchTransferStatus is the standard batch transfer status response.
 type BatchTransferStatus struct {
 	UUID      string `json:"uuid"`
