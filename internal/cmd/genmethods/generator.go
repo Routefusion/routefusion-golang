@@ -10,8 +10,11 @@ import (
 func main() {
 	f, err := os.Open("api.go")
 	fmt.Println(err)
-	g := generator.NewAST(f, os.Stdout)
-	w := &generator.ASTWriter{}
+
+	o, err := os.Create("methods.go")
+	fmt.Println(err)
+	g := generator.NewAST(f, o)
+	w := &generator.ASTWriter{PackageName: "routefusion"}
 	r := &generator.ASTReader{}
 	g.Generate(r, w)
 }

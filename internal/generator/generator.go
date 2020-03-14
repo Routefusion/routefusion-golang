@@ -20,6 +20,8 @@ type API struct {
 type Method struct {
 	Endpoint     string
 	MethodName   string
+	Verb         string
+	Body         string
 	InputParams  []Parameter
 	OutputParams []Parameter
 }
