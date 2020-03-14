@@ -19,5 +19,7 @@ func main() {
 	g := generator.NewAST(f, o)
 	w := &generator.ASTWriter{PackageName: "routefusion"}
 	r := &generator.ASTReader{}
-	g.Generate(r, w)
+	if err := g.Generate(r, w); err != nil {
+		panic(err)
+	}
 }

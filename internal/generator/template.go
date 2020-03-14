@@ -16,31 +16,13 @@ const fnTmpl = `
 			var response {{(index .OutputParams 0).Type}}
 			req, err := r.cl.NewRequest(op, &response, nil)
 			if err != nil {
-				{{if eq $length 1}}
-					return nil
-				{{ end }} 
-				{{if eq $length 2}}
-					return response, nil
-				{{ end }} 
+				{{if eq $length 1}} return nil {{ else }} return response, nil {{ end }} 
 			}
 			if err := req.Send(); err != nil {
-				{{if eq $length 1}}
-					return nil
-				{{ end }} 
-				{{if eq $length 2}}
-					return response, nil
-				{{ end }} 
+				{{if eq $length 1}} return nil {{ else }} return response, nil {{ end }} 
 			}
 
-
-		{{if eq $length 1}}
-			return nil
-		{{ end }} 
-
-		{{if eq $length 2}}
-			return response, nil
-		{{ end }} 
-
+			{{if eq $length 1}} return nil {{ else }} return response, nil {{ end }} 
 		}
 `
 
