@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/routefusion/routefusion-golang/internal/generator"
@@ -9,10 +8,14 @@ import (
 
 func main() {
 	f, err := os.Open("api.go")
-	fmt.Println(err)
+	if err != nil {
+		panic(err)
+	}
 
 	o, err := os.Create("methods.go")
-	fmt.Println(err)
+	if err != nil {
+		panic(err)
+	}
 	g := generator.NewAST(f, o)
 	w := &generator.ASTWriter{PackageName: "routefusion"}
 	r := &generator.ASTReader{}

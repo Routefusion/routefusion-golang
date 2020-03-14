@@ -3,25 +3,44 @@ package generator
 const fnTmpl = `
 		{{$i := separator ", "}}
 		{{$o := separator ", "}}
-		func (rf *Routefusion) {{.MethodName}} ({{range .InputParams}}{{call $i}}{{.Name}} {{.Type}}{{end}}) ( 
+		{{$length := len .OutputParams}}
+		func (r *Routefusion) {{.MethodName}} ({{range .InputParams}}{{call $i}}{{.Name}} {{.Type}}{{end}}) ( 
 		{{range .OutputParams}} {{call $o}} {{.Name}} {{.Type}} {{end}}){
 			op := client.Operation{
 				HTTPMethod: http.Method{{.Verb}},
-				HTTPPath:  ""  {{.Endpoint}},
+				HTTPPath:   endpoint + "/{{.Path}}",
 			}
 
 			{{.Body}}
 
 			var response {{(index .OutputParams 0).Type}}
-			req, err := rf.NewRequest(op, &response, nil)
+			req, err := r.cl.NewRequest(op, &response, nil)
 			if err != nil {
-				return nil, err
+				{{if eq $length 1}}
+					return nil
+				{{ end }} 
+				{{if eq $length 2}}
+					return response, nil
+				{{ end }} 
 			}
 			if err := req.Send(); err != nil {
-				return nil, err
+				{{if eq $length 1}}
+					return nil
+				{{ end }} 
+				{{if eq $length 2}}
+					return response, nil
+				{{ end }} 
 			}
 
+
+		{{if eq $length 1}}
+			return nil
+		{{ end }} 
+
+		{{if eq $length 2}}
 			return response, nil
+		{{ end }} 
+
 		}
 `
 

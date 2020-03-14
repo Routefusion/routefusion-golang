@@ -20,6 +20,7 @@ type API struct {
 type Method struct {
 	Endpoint     string
 	MethodName   string
+	Path         string
 	Verb         string
 	Body         string
 	InputParams  []Parameter

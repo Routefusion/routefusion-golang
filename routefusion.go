@@ -4,7 +4,6 @@
 package routefusion
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/routefusion/routefusion-golang/client"
@@ -52,23 +51,4 @@ func New(cfg Config) *Routefusion {
 			IdleConnTimeout:     cfg.IdleConnTimeout,
 		}),
 	}
-}
-
-func (r *Routefusion) GetUser() (*UserDetails, error) {
-	var output = &UserDetails{}
-	op := client.Operation{
-		HTTPPath:   r.baseURL + v1 + "/users/me",
-		HTTPMethod: http.MethodGet,
-	}
-
-	req, err := r.cl.NewRequest(op, output, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := req.Send(); err != nil {
-		return nil, err
-	}
-
-	return output, nil
 }
