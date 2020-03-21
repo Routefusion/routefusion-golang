@@ -11,7 +11,6 @@ import (
 
 const (
 	baseURL = "https://api.routefusion.co/"
-	v1      = "v1"
 )
 
 // Routefusion is the master struct that implements routefusion.Client.

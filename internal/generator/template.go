@@ -8,7 +8,7 @@ const fnTmpl = `
 		{{range .OutputParams}} {{call $o}} {{.Name}} {{.Type}} {{end}}){
 			op := client.Operation{
 				HTTPMethod: http.Method{{.Verb}},
-				HTTPPath:   endpoint + "/{{.Path}}",
+				HTTPPath:   r.baseURL + "/{{.Path}}",
 			}
 
 			{{.Body}}
@@ -16,10 +16,10 @@ const fnTmpl = `
 			var response {{(index .OutputParams 0).Type}}
 			req, err := r.cl.NewRequest(op, &response, nil)
 			if err != nil {
-				{{if eq $length 1}} return nil {{ else }} return response, nil {{ end }} 
+				{{if eq $length 1}} return err {{ else }} return nil, err {{ end }} 
 			}
 			if err := req.Send(); err != nil {
-				{{if eq $length 1}} return nil {{ else }} return response, nil {{ end }} 
+				{{if eq $length 1}} return err {{ else }} return nil, err {{ end }} 
 			}
 
 			{{if eq $length 1}} return nil {{ else }} return response, nil {{ end }} 
