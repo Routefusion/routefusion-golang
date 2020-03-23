@@ -22,7 +22,7 @@ type Method struct {
 	MethodName   string
 	Path         string
 	Verb         string
-	Body         string
+	Body         Parameter
 	InputParams  []Parameter
 	OutputParams []Parameter
 }

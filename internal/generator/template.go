@@ -3,6 +3,7 @@ package generator
 const fnTmpl = `
 		{{$i := separator ", "}}
 		{{$o := separator ", "}}
+		{{$bodyEmpty := isBodyEmpty .Body}}
 		{{$length := len .OutputParams}}
 		func (r *Routefusion) {{.MethodName}} ({{range .InputParams}}{{call $i}}{{.Name}} {{.Type}}{{end}}) ( 
 		{{range .OutputParams}} {{call $o}} {{.Name}} {{.Type}} {{end}}){
@@ -11,10 +12,18 @@ const fnTmpl = `
 				HTTPPath:   r.baseURL + "/{{.Path}}",
 			}
 
-			{{.Body}}
-
 			var response {{(index .OutputParams 0).Type}}
+
+			{{if eq $bodyEmpty false}}
+			bdy , err := json.Marshal({{.Body.Name}})
+			if err != nil {
+				return nil, err 
+			}
+			req, err := r.cl.NewRequest(op, &response, bdy)
+			{{ else }}
 			req, err := r.cl.NewRequest(op, &response, nil)
+			{{ end }}
+
 			if err != nil {
 				{{if eq $length 1}} return err {{ else }} return nil, err {{ end }} 
 			}
@@ -35,4 +44,8 @@ func separator(s string) func() string {
 		}
 		return s
 	}
+}
+
+func isBodyEmpty(body Parameter) bool {
+	return body == Parameter{}
 }

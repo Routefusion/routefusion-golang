@@ -8,6 +8,7 @@ import (
 	"go/parser"
 	"go/token"
 	"io"
+	"net/http"
 	"regexp"
 	"strings"
 	"text/template"
@@ -116,14 +117,25 @@ func getMethods(fields []*ast.Field) []Method {
 		methodData.MethodName = method.Names[0].String()
 		methodData.InputParams = getFields(fn.Params.List)
 		methodData.OutputParams = getFields(fn.Results.List)
+		setBody(&methodData)
 
 		methods = append(methods, methodData)
 	}
 	return methods
 }
 
+func santizePath(path *string, params []Parameter) {
+}
+
+func setBody(methodData *Method) {
+	verb := strings.ToUpper(methodData.Verb)
+	if verb == http.MethodPut || verb == http.MethodPost {
+		methodData.Body = methodData.InputParams[len(methodData.InputParams)-1]
+	}
+}
+
 func extractComment(comment string) string {
-	slashRemoved := strings.Trim(comment, "//")
+	slashRemoved := strings.Trim(comment, "/")
 	return strings.Trim(slashRemoved, " ")
 }
 
@@ -198,6 +210,7 @@ func (aw *ASTWriter) WriteAPI(w io.Writer, apis []API) error {
 		for _, method := range api.Methods {
 			t := template.Must(template.New("func").
 				Funcs(template.FuncMap{"separator": separator}).
+				Funcs(template.FuncMap{"isBodyEmpty": isBodyEmpty}).
 				Parse(fnTmpl))
 			t.Execute(&buf, method)
 		}
