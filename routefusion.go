@@ -23,7 +23,9 @@ type Routefusion struct {
 // Config is an optional control struct you can give the client. If config
 // is nil, the client defaults to preset constants.
 type Config struct {
-	URL string
+	URL       string
+	ClientID  string
+	SecretKey string
 
 	// used to fine-tune the underlying transport of the HTTP client.
 	// see client/client.go and godoc for preset constants.
@@ -40,9 +42,18 @@ func New(cfg Config) *Routefusion {
 	if url == "" {
 		url = baseURL
 	}
+
+	clientID := cfg.ClientID
+	secretKey := cfg.SecretKey
+
+	authorizer := &ClientAuthorizer{
+		ClientID:  clientID,
+		SecretKey: secretKey,
+	}
 	return &Routefusion{
 		cl: client.NewClient(client.Config{
-			BaseURL:             baseURL,
+			BaseURL:             url,
+			Authorizer:          authorizer,
 			RequestTimeout:      cfg.RequestTimeout,
 			TLSHandshakeTimeout: cfg.TLSHandshakeTimeout,
 			MaxIdleConns:        cfg.MaxIdleConns,
