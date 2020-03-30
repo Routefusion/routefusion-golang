@@ -24,8 +24,10 @@ type Request struct {
 	HTTPResponse *http.Response
 	Error        RequestFailureError
 	Output       interface{}
-	Retryer      Retryer
-	RetryCount   int
+
+	authorizer Authorizer
+	Retryer    Retryer
+	RetryCount int
 
 	body   io.ReadSeeker
 	client *http.Client
@@ -59,9 +61,7 @@ func NewRequest(client *http.Client,
 	if err != nil {
 		return nil, fmt.Errorf("error making new request: %s", err)
 	}
-	if authorizer != nil {
-		authorizer.AuthorizeRequest(httpReq)
-	}
+
 	unpackParams(httpReq, params)
 
 	return &Request{
@@ -69,6 +69,7 @@ func NewRequest(client *http.Client,
 		HTTPRequest: httpReq,
 		body:        body,
 		Retryer:     retryer,
+		authorizer:  authorizer,
 		client:      client,
 	}, nil
 }
@@ -85,6 +86,10 @@ func (r *Request) Send() (err error) {
 	for try := 0; ; try++ {
 		if r.body != nil {
 			r.HTTPRequest.Body = newOffsetReader(r.body, 0)
+		}
+
+		if r.authorizer != nil {
+			r.authorizer.AuthorizeRequest(r.HTTPRequest)
 		}
 
 		r.HTTPResponse, err = r.client.Do(r.HTTPRequest)
@@ -116,6 +121,9 @@ func (r *Request) Send() (err error) {
 					r.HTTPResponse.StatusCode,
 					"")
 			}
+
+			bdy, err := ioutil.ReadAll(r.HTTPResponse.Body)
+			fmt.Println(string(bdy), err)
 
 			return NewRequestFailureError(
 				NewRFError(ErrCodeUndefined, msg, err),
