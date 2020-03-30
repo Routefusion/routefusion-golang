@@ -19,7 +19,7 @@ const fnTmpl = `
 			if err != nil {
 				return nil, err 
 			}
-			req, err := r.cl.NewRequest(op, &response, bdy)
+			req, err := r.cl.NewRequest(op, &response, bytes.NewReader(bdy))
 			{{ else }}
 			req, err := r.cl.NewRequest(op, &response, nil)
 			{{ end }}

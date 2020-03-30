@@ -5,19 +5,19 @@ import "time"
 // User represents the changeable details pertaining to a user.
 // TODO: QUESTION- Is this a multipart or marshalled http body?
 type User struct {
-	UserName string
-	Password string
+	UserName string `json:"username"`
+	Password string `json:"password"`
 	UserData
 }
 
 // UserData is a representation of the base data that is common for all users.
 type UserData struct {
-	FirstName   string
-	LastName    string
-	Email       string
-	PhoneNumber string
-	Country     string
-	CompanyName string
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone_number"`
+	Country     string `json:"country"`
+	CompanyName string `json:"company_name"`
 }
 
 // AdminUpdateableUser is a representation of data updateable by an admin.
