@@ -200,6 +200,8 @@ func (aw *ASTWriter) WriteAPI(w io.Writer, apis []API) error {
 	packageName := fmt.Sprintf("package %s\n", aw.PackageName)
 	buf.WriteString(packageName)
 	buf.WriteString("import (\n")
+	buf.WriteString("\"bytes\"\n")
+	buf.WriteString("\"encoding/json\"\n")
 	buf.WriteString("\"io\"\n")
 	buf.WriteString("\"net/http\"\n")
 	buf.WriteString("\"github.com/routefusion/routefusion-golang/client\"\n")

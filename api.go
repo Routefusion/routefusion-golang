@@ -71,7 +71,7 @@ type Beneficiaries interface {
 type Quotes interface {
 
 	// Post v1/quotes
-	CreateQuote(*QuoteInput) (*QuoteResponse, error)
+	CreateQuote(qi *QuoteInput) (*QuoteResponse, error)
 }
 
 // Transfers specifies the operations that can be performed around transfers.
